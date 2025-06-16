@@ -1,7 +1,7 @@
 // 跳戏 - 非遗文化网站 主JavaScript文件
 
 // 确保DOM内容加载完成后执行
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     // 初始化页面
     initPage();
 });
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function initPage() {
     // 初始化轮播图
     initCarousel();
-
+    
     // 初始化移动端菜单
     initMobileMenu();
 }
@@ -19,7 +19,7 @@ function initPage() {
 function initCarousel() {
     const carousel = document.querySelector('.carousel');
     if (!carousel) return; // 如果当前页面没有轮播图，直接返回
-
+    
     const carouselInner = carousel.querySelector('.carousel-inner');
     const carouselItems = carousel.querySelectorAll('.carousel-item');
     const prevBtn = carousel.querySelector('.carousel-prev');
@@ -101,13 +101,12 @@ function initMobileMenu() {
     if (menuBtn && navMenu) {
         // 确保菜单按钮可见且正常工作
         menuBtn.style.display = 'block';
-
-        menuBtn.addEventListener('click', function () {
+        
+        menuBtn.addEventListener('click', function() {
             navMenu.classList.toggle('active');
             this.innerHTML = navMenu.classList.contains('active') ? '✕' : '☰';
-            console.log('Mobile menu clicked, active:', navMenu.classList.contains('active'));
         });
-
+        
         // 点击菜单项后自动关闭菜单
         const navLinks = navMenu.querySelectorAll('a');
         navLinks.forEach(link => {

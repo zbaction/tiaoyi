@@ -31,7 +31,6 @@ function createNavbar(elementId, activePage) {
   };
 
   const logoUrl = getImageUrl('images/logo.png');
-  console.log('Logo URL:', logoUrl);
 
   const navbar = `
     <header class="header">
@@ -69,19 +68,16 @@ function createNavbar(elementId, activePage) {
       menuBtn.addEventListener('click', function () {
         navMenu.classList.toggle('active');
         this.innerHTML = navMenu.classList.contains('active') ? '✕' : '☰';
-        console.log('菜单状态切换：', navMenu.classList.contains('active') ? '已打开' : '已关闭');
       });
 
       // 添加链接点击事件
       const links = navMenu.querySelectorAll('a');
       links.forEach(link => {
         link.addEventListener('click', function () {
-          console.log('点击了菜单链接：', this.textContent);
+          navMenu.classList.remove('active');
+          menuBtn.innerHTML = '☰';
         });
       });
-    } else {
-      console.error('移动菜单初始化失败: ', menuBtn ? '菜单按钮已找到' : '菜单按钮未找到',
-        navMenu ? '导航菜单已找到' : '导航菜单未找到');
     }
   }, 100);
 } 
