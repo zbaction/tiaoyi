@@ -1,17 +1,18 @@
 // 跳戏 - 非遗文化遗产网站 调试工具
 
 document.addEventListener('DOMContentLoaded', function () {
-    // 在移动设备上添加调试面板
-    if (window.innerWidth <= 768) {
-        addDebugPanel();
-    }
+    // 在移动设备上强制添加调试面板
+    addDebugPanel();
 
     // 记录页面加载事件
     console.log('页面已加载: ' + window.location.pathname);
     logToPanel('页面已加载: ' + window.location.pathname);
 
+    // 检查图片加载情况
+    setTimeout(checkImagesLoaded, 1000);
+
     // 检查关键元素是否存在
-    setTimeout(checkCriticalElements, 1000);
+    setTimeout(checkCriticalElements, 1500);
 });
 
 // 添加调试面板
@@ -24,9 +25,9 @@ function addDebugPanel() {
         left: 0;
         width: 100%;
         height: 100px;
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: rgba(0, 0, 0, 0.8);
         color: white;
-        font-size: 12px;
+        font-size: 14px;
         padding: 10px;
         overflow-y: scroll;
         z-index: 9999;
@@ -43,13 +44,14 @@ function addDebugPanel() {
         position: fixed;
         bottom: 10px;
         right: 10px;
-        padding: 5px;
+        padding: 8px;
         background-color: #8c1c13;
         color: white;
         border: none;
         border-radius: 4px;
         z-index: 10000;
-        font-size: 12px;
+        font-size: 16px;
+        font-weight: bold;
     `;
 
     document.body.appendChild(debugPanel);
@@ -67,13 +69,64 @@ function addDebugPanel() {
 
 // 记录信息到调试面板
 function logToPanel(message) {
+    console.log(message); // 始终在控制台记录
+
     const log = document.getElementById('debug-log');
     if (log) {
         const time = new Date().toLocaleTimeString();
         log.innerHTML += `<p>[${time}] ${message}</p>`;
         log.scrollTop = log.scrollHeight;
     }
-    console.log(message);
+}
+
+// 检查图片加载情况
+function checkImagesLoaded() {
+    const images = document.querySelectorAll('img');
+    logToPanel(`页面上共有 ${images.length} 张图片`);
+
+    let loadedCount = 0;
+    let errorCount = 0;
+
+    images.forEach((img, index) => {
+        if (img.complete) {
+            if (img.naturalHeight === 0) {
+                errorCount++;
+                logToPanel(`错误: 图片 ${index + 1} (${img.src}) 加载失败`);
+                // 添加边框以显示问题图片位置
+                img.style.border = '3px solid red';
+            } else {
+                loadedCount++;
+            }
+        } else {
+            img.addEventListener('load', function () {
+                loadedCount++;
+                logToPanel(`图片已加载: ${this.src.split('/').pop()}`);
+            });
+
+            img.addEventListener('error', function () {
+                errorCount++;
+                logToPanel(`错误: 图片加载失败: ${this.src}`);
+                // 添加边框以显示问题图片位置
+                this.style.border = '3px solid red';
+                // 显示替代文本
+                const errorText = document.createElement('div');
+                errorText.textContent = '图片加载失败';
+                errorText.style.cssText = `
+                    color: red;
+                    background-color: #ffeeee;
+                    padding: 5px;
+                    text-align: center;
+                    font-size: 12px;
+                `;
+                this.parentNode.insertBefore(errorText, this.nextSibling);
+            });
+        }
+
+        // 记录图片信息
+        logToPanel(`图片 ${index + 1}: ${img.src.split('/').pop()}, alt="${img.alt}"`);
+    });
+
+    logToPanel(`已加载 ${loadedCount} 张图片，${errorCount} 张加载失败`);
 }
 
 // 检查关键元素
@@ -115,6 +168,27 @@ function checkCriticalElements() {
     } else {
         logToPanel('错误: 未找到菜单按钮');
     }
+
+    // 检查设备信息
+    logDeviceInfo();
+}
+
+// 记录设备信息
+function logDeviceInfo() {
+    const deviceInfo = {
+        userAgent: navigator.userAgent,
+        screenWidth: window.screen.width,
+        screenHeight: window.screen.height,
+        windowWidth: window.innerWidth,
+        windowHeight: window.innerHeight,
+        devicePixelRatio: window.devicePixelRatio,
+        orientation: window.screen.orientation ? window.screen.orientation.type : '未知'
+    };
+
+    logToPanel('设备信息:');
+    for (const [key, value] of Object.entries(deviceInfo)) {
+        logToPanel(`- ${key}: ${value}`);
+    }
 }
 
 // 添加页面测试链接
@@ -122,9 +196,9 @@ function addTestLinks() {
     const testPanel = document.createElement('div');
     testPanel.style.cssText = `
         position: fixed;
-        top: 10px;
+        top: 70px;
         right: 10px;
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: rgba(0, 0, 0, 0.8);
         padding: 10px;
         border-radius: 4px;
         z-index: 9999;
@@ -148,11 +222,12 @@ function addTestLinks() {
             color: white;
             margin: 5px 0;
             text-decoration: none;
-            padding: 3px;
+            padding: 5px 10px;
             background-color: #8c1c13;
             border-radius: 3px;
             text-align: center;
-            font-size: 12px;
+            font-size: 14px;
+            font-weight: bold;
         `;
 
         link.addEventListener('click', function (e) {

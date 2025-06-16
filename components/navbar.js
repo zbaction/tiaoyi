@@ -8,19 +8,36 @@
 function createNavbar(elementId, activePage) {
   // 获取当前路径的基础URL
   const getBaseUrl = () => {
-    // 提取当前URL的路径部分
-    const pathArray = window.location.pathname.split('/');
-    pathArray.pop(); // 移除当前文件名
-    return pathArray.join('/') + '/';
+    // 确保路径以/结尾
+    const path = window.location.pathname;
+    const pathParts = path.split('/');
+    // 移除最后一个元素（文件名）
+    pathParts.pop();
+    return pathParts.join('/') + '/';
   };
 
-  const baseUrl = getBaseUrl();
+  // 获取图片的绝对URL
+  const getImageUrl = (relativePath) => {
+    // 检查是否已经是绝对URL
+    if (relativePath.startsWith('http') || relativePath.startsWith('//')) {
+      return relativePath;
+    }
+
+    // 将相对路径转换为绝对路径
+    const baseUrl = window.location.origin + getBaseUrl();
+    // 移除开头的斜杠（如果有的话）
+    const cleanPath = relativePath.startsWith('/') ? relativePath.substring(1) : relativePath;
+    return baseUrl + cleanPath;
+  };
+
+  const logoUrl = getImageUrl('images/logo.png');
+  console.log('Logo URL:', logoUrl);
 
   const navbar = `
     <header class="header">
       <div class="container header-content">
         <a href="index.html" class="logo">
-          <img src="images/logo.png" alt="跳戏 Logo" />
+          <img src="${logoUrl}" alt="跳戏 Logo" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'40\\' height=\\'40\\' viewBox=\\'0 0 40 40\\'><circle cx=\\'20\\' cy=\\'20\\' r=\\'18\\' fill=\\'%238c1c13\\'/><text x=\\'20\\' y=\\'25\\' font-size=\\'20\\' text-anchor=\\'middle\\' fill=\\'white\\'>跳</text></svg>';" />
           <span>跳戏</span>
         </a>
         
@@ -46,10 +63,25 @@ function createNavbar(elementId, activePage) {
     const navMenu = document.querySelector('.nav-menu');
 
     if (menuBtn && navMenu) {
+      // 确保菜单按钮可见
+      menuBtn.style.display = 'block';
+
       menuBtn.addEventListener('click', function () {
         navMenu.classList.toggle('active');
         this.innerHTML = navMenu.classList.contains('active') ? '✕' : '☰';
+        console.log('菜单状态切换：', navMenu.classList.contains('active') ? '已打开' : '已关闭');
       });
+
+      // 添加链接点击事件
+      const links = navMenu.querySelectorAll('a');
+      links.forEach(link => {
+        link.addEventListener('click', function () {
+          console.log('点击了菜单链接：', this.textContent);
+        });
+      });
+    } else {
+      console.error('移动菜单初始化失败: ', menuBtn ? '菜单按钮已找到' : '菜单按钮未找到',
+        navMenu ? '导航菜单已找到' : '导航菜单未找到');
     }
   }, 100);
 } 
