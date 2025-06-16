@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文创产品 - 跳戏非物质文化遗产网站</title>
+    <meta name="description" content="跳戏非遗文化创意产品展示，包括面具复制品、服饰模型、艺术衍生品等。">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 文创产品页面专用样式 */
+        .product-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            background-color: transparent;
+            border: 2px solid #8c1c13;
+            color: #8c1c13;
+            padding: 8px 16px;
+            margin: 0 8px 8px 0;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background-color: #8c1c13;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(140, 28, 19, 0.2);
+        }
+
+        .filter-btn:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: -100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
+            transition: all 0.6s;
+        }
+
+        .filter-btn:hover:after {
+            left: 100%;
+        }
+
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(140, 28, 19, 0.1) 0%, rgba(255, 255, 255, 0) 60%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .product-card:hover:before {
+            opacity: 1;
+        }
+
+        .product-image {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1) rotate(1deg);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #8c1c13;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .product-badge {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-details {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+        }
+
+        .product-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .product-card:hover .product-title {
+            color: #8c1c13;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 15px;
+            flex-grow: 1;
+            line-height: 1.5;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            position: relative;
+        }
+
+        .product-price {
+            font-size: 22px;
+            color: #8c1c13;
+            font-weight: bold;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-price {
+            transform: scale(1.1);
+        }
+
+        .product-btn {
+            background-color: #8c1c13;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(140, 28, 19, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-btn:hover {
+            background-color: #5f1108;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 10px rgba(140, 28, 19, 0.3);
+        }
+
+        .product-btn:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: -100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+            transition: all 0.6s;
+        }
+
+        .product-btn:hover:after {
+            left: 100%;
+        }
+
+        /* 专题展示区 */
+        .featured-section {
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .featured-products {
+            display: flex;
+            overflow-x: auto;
+            gap: 25px;
+            padding: 15px 5px;
+            margin-bottom: 30px;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            width: 100%;
+            /* 确保容器占满整个宽度 */
+        }
+
+        .featured-products::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .featured-products::-webkit-scrollbar-thumb {
+            background-color: #8c1c13;
+            border-radius: 10px;
+        }
+
+        .featured-products::-webkit-scrollbar-track {
+            background-color: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .featured-product {
+            min-width: 270px;
+            /* 减小最小宽度，使一行能够显示更多产品 */
+            max-width: 300px;
+            /* 添加最大宽度限制 */
+            flex: 1;
+            /* 让产品卡片平均分配空间 */
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-right: 5px;
+            /* 添加右侧间距 */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 1;
+        }
+
+        .featured-product:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(140, 28, 19, 0.1) 0%, rgba(255, 255, 255, 0) 60%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .featured-product:hover:before {
+            opacity: 1;
+        }
+
+        .featured-product:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .featured-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+        }
+
+        .featured-product:hover .featured-image img {
+            transform: scale(1.1) rotate(1deg);
+        }
+
+        .featured-details {
+            padding: 20px;
+            position: relative;
+        }
+
+        .featured-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .featured-product:hover .featured-title {
+            color: #8c1c13;
+        }
+
+        .featured-description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* 说明板块 */
+        .info-section {
+            background: linear-gradient(135deg, #f8f3e9 0%, #f5e9d7 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-section:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(140, 28, 19, 0.03) 0%, rgba(255, 255, 255, 0) 70%);
+            z-index: 0;
+        }
+
+        .info-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-item {
+            text-align: center;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 20px;
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .info-icon {
+            background: linear-gradient(135deg, #8c1c13 0%, #b22a20 100%);
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 26px;
+            box-shadow: 0 7px 15px rgba(140, 28, 19, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover .info-icon {
+            transform: rotateY(180deg);
+        }
+
+        .info-item:hover .info-icon i {
+            transform: rotateY(180deg);
+        }
+
+        .info-icon i {
+            transition: transform 0.6s ease;
+        }
+
+        .info-title {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #333;
+            position: relative;
+            display: inline-block;
+        }
+
+        .info-title:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: #8c1c13;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .info-item:hover .info-title:after {
+            width: 70%;
+        }
+
+        .info-text {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* 购物车样式 */
+        .cart-icon {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            background: linear-gradient(135deg, #8c1c13 0%, #b22a20 100%);
+            color: white;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(140, 28, 19, 0.4);
+            z-index: 100;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(140, 28, 19, 0.5);
+        }
+
+        .cart-icon:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .cart-icon:hover:before {
+            opacity: 1;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #333 0%, #222 100%);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+
+        .cart-icon:hover .cart-count {
+            transform: scale(1.2);
+        }
+
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .cart-content {
+            background-color: white;
+            border-radius: 15px;
+            width: 85%;
+            max-width: 650px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(0);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: cartAppear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes cartAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .cart-header h2 {
+            color: #333;
+            font-size: 26px;
+            font-weight: 600;
+            margin: 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        .cart-header h2:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: #8c1c13;
+            border-radius: 2px;
+        }
+
+        .cart-close {
+            cursor: pointer;
+            font-size: 24px;
+            color: #666;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            background-color: #f5f5f5;
+        }
+
+        .cart-close:hover {
+            background-color: #8c1c13;
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .cart-items {
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+            animation: itemAppear 0.5s forwards;
+        }
+
+        @keyframes itemAppear {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .cart-item:hover {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 10px;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .cart-item-image {
+            width: 90px;
+            height: 90px;
+            margin-right: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.4s ease;
+        }
+
+        .cart-item:hover .cart-item-image img {
+            transform: scale(1.1);
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+            padding: 5px 0;
+        }
+
+        .cart-item-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .cart-item-price {
+            color: #8c1c13;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            border: 1px solid #eee;
+            border-radius: 25px;
+            overflow: hidden;
+        }
+
+        .quantity-btn {
+            background-color: #f5f5f5;
+            border: none;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #666;
+        }
+
+        .quantity-btn:hover {
+            background-color: #8c1c13;
+            color: white;
+        }
+
+        .quantity-value {
+            margin: 0 12px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .remove-item {
+            color: #8c1c13;
+            cursor: pointer;
+            font-size: 18px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            background-color: #f5f5f5;
+        }
+
+        .remove-item:hover {
+            background-color: #8c1c13;
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 22px;
+            margin-bottom: 25px;
+            padding: 15px 0;
+            border-top: 2px dashed #eee;
+            color: #333;
+        }
+
+        .total-amount {
+            color: #8c1c13;
+            font-size: 24px;
+        }
+
+        .checkout-btn {
+            background: linear-gradient(135deg, #8c1c13 0%, #b22a20 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 30px;
+            width: 100%;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(140, 28, 19, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .checkout-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
+            transition: all 0.6s ease;
+        }
+
+        .checkout-btn:hover {
+            background: linear-gradient(135deg, #b22a20 0%, #8c1c13 100%);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(140, 28, 19, 0.4);
+        }
+
+        .checkout-btn:hover:before {
+            left: 100%;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+            font-size: 18px;
+            font-style: italic;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .empty-cart i {
+            font-size: 50px;
+            color: #ddd;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* 添加到购物车动画 */
+        .add-to-cart-animation {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8c1c13 0%, #b22a20 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            z-index: 999;
+            pointer-events: none;
+            box-shadow: 0 5px 15px rgba(140, 28, 19, 0.4);
+            animation: pulse 0.8s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(140, 28, 19, 0.5);
+            }
+
+            100% {
+                box-shadow: 0 0 0 10px rgba(140, 28, 19, 0);
+            }
+        }
+
+        /* 响应式设计调整 */
+        @media (max-width: 768px) {
+            .products-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+            }
+
+            .featured-product {
+                min-width: 220px;
+                /* 在移动设备上进一步减小最小宽度 */
+                margin-right: 10px;
+            }
+
+            .product-image {
+                height: 200px;
+            }
+        }
+
+        /* 添加一个清除浮动的样式，确保布局正确 */
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* 页面标题样式 */
+        .main-content h1.section-title {
+            position: relative;
+            margin-bottom: 30px;
+            font-size: 36px;
+            text-align: center;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        .main-content h1.section-title:after {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #8c1c13, #d86c5f);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .main-content .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #666;
+            font-size: 18px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .main-content .subtitle:after {
+            content: "";
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background-color: #8c1c13;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* 定制服务区域样式 */
+        .custom-service-container {
+            background: linear-gradient(135deg, #f8f3e9 0%, #f5e9d7 100%);
+            padding: 50px;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+            z-index: 1;
+            transition: all 0.4s ease;
+        }
+
+        .custom-service-container:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(140, 28, 19, 0.03) 0%, rgba(255, 255, 255, 0) 70%);
+            z-index: -1;
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .custom-service-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-service-title {
+            color: #8c1c13;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-service-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #8c1c13, transparent);
+        }
+
+        .custom-service-text {
+            margin-bottom: 30px;
+            font-size: 18px;
+            color: #555;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .custom-service-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #8c1c13 0%, #b22a20 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(140, 28, 19, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .custom-service-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(140, 28, 19, 0.4);
+        }
+
+        .custom-service-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
+            transition: all 0.6s ease;
+            z-index: -1;
+        }
+
+        .custom-service-btn:hover:before {
+            left: 100%;
+        }
+
+        .custom-service-icon {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .custom-service-icon.icon-1 {
+            top: 20px;
+            left: 40px;
+            transform: rotate(-15deg);
+        }
+
+        .custom-service-icon.icon-2 {
+            bottom: 30px;
+            right: 50px;
+            transform: rotate(15deg);
+        }
+
+        /* 滚动指示器 */
+        .scroll-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .scroll-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #8c1c13, #d86c5f);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #8c1c13 0%, #b22a20 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(140, 28, 19, 0.4);
+            z-index: 99;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 8px 20px rgba(140, 28, 19, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 滚动指示器 -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar"></div>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <div class="back-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- 导航栏占位 -->
+    <div id="navbar-container"></div>
+
+    <!-- 购物车图标 -->
+    <div class="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </div>
+
+    <!-- 购物车弹窗 -->
+    <div class="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>购物车</h2>
+                <span class="cart-close"><i class="fas fa-times"></i></span>
+            </div>
+            <div class="cart-items">
+                <!-- 购物车项目将通过 JavaScript 动态添加 -->
+            </div>
+            <div class="cart-total">
+                <span>总计:</span>
+                <span class="total-amount">¥0</span>
+            </div>
+            <button class="checkout-btn">结算 <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <main>
+        <!-- 页面标题 -->
+        <section class="container main-content">
+            <h1 class="section-title">文创产品</h1>
+            <p class="subtitle">传统与现代融合，带您领略跳戏艺术的非遗魅力</p>
+        </section>
+
+        <!-- 信息说明区 -->
+        <section class="container info-section">
+            <div class="info-container">
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-hammer"></i></div>
+                    <h3 class="info-title">匠心制作</h3>
+                    <p class="info-text">每件产品都由非遗传承人及其团队精心打造，保证品质与艺术价值</p>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-book"></i></div>
+                    <h3 class="info-title">文化传承</h3>
+                    <p class="info-text">购买文创产品不仅拥有艺术珍品，也是对非物质文化遗产保护的支持</p>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h3 class="info-title">创意设计</h3>
+                    <p class="info-text">传统艺术与现代设计相结合，带来兼具实用性与观赏性的精品</p>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-gift"></i></div>
+                    <h3 class="info-title">礼品精选</h3>
+                    <p class="info-text">独特的文化礼品，是送亲朋好友、外国友人的绝佳选择</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 特色产品展示 -->
+        <section class="container featured-section">
+            <h2 class="section-title">特色系列</h2>
+            <p style="text-align: center; margin-bottom: 20px;">限量版跳戏面具复刻系列，由国家级非遗传承人亲制</p>
+
+            <div class="featured-products clearfix">
+                <div class="featured-product">
+                    <div class="featured-image">
+                        <img src="images/cultural-1.jpg" alt="跳戏经典角色面具 - 将军">
+                    </div>
+                    <div class="featured-details">
+                        <h3 class="featured-title">经典角色面具 - 将军</h3>
+                        <p class="featured-description">复刻传统跳戏中威武将军角色面具，采用传统工艺手工彩绘</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥666</span>
+                            <a href="#" class="product-btn">立即购买 <i class="fas fa-shopping-bag"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="featured-product">
+                    <div class="featured-image">
+                        <img src="images/cultural-2.jpg" alt="跳戏经典角色面具 - 文官">
+                    </div>
+                    <div class="featured-details">
+                        <h3 class="featured-title">经典角色面具 - 文官</h3>
+                        <p class="featured-description">复刻传统跳戏中文官角色面具，精致纹路，栩栩如生</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥999</span>
+                            <a href="#" class="product-btn">立即购买 <i class="fas fa-shopping-bag"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="featured-product">
+                    <div class="featured-image">
+                        <img src="images/cultural-3.jpg" alt="跳戏经典角色面具 - 仙女">
+                    </div>
+                    <div class="featured-details">
+                        <h3 class="featured-title">经典角色面具 - 仙女</h3>
+                        <p class="featured-description">复刻传统跳戏中仙女角色面具，优雅细腻，展现东方女性美</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥888</span>
+                            <a href="#" class="product-btn">立即购买 <i class="fas fa-shopping-bag"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="featured-product">
+                    <div class="featured-image">
+                        <img src="images/cultural-4.jpg" alt="跳戏经典角色面具 - 判官">
+                    </div>
+                    <div class="featured-details">
+                        <h3 class="featured-title">经典角色面具 - 判官</h3>
+                        <p class="featured-description">复刻传统跳戏中判官角色面具，神秘威严，独特魅力</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥1000</span>
+                            <a href="#" class="product-btn">立即购买 <i class="fas fa-shopping-bag"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品分类与筛选 -->
+        <section class="container main-content">
+            <h2 class="section-title">全部文创产品</h2>
+
+            <div class="product-filter">
+                <button class="filter-btn active" data-category="all">全部</button>
+                <button class="filter-btn" data-category="mask">面具系列</button>
+                <button class="filter-btn" data-category="clothing">服饰系列</button>
+                <button class="filter-btn" data-category="accessories">配饰系列</button>
+                <button class="filter-btn" data-category="office">文创办公</button>
+                <button class="filter-btn" data-category="life">生活家居</button>
+            </div>
+
+            <div class="products-container">
+                <!-- 产品1 -->
+                <div class="product-card" data-category="mask">
+                    <div class="product-image">
+                        <img src="images/product-1.jpg" alt="迷你装饰面具 - 五彩系列">
+                        <div class="product-badge">畅销</div>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">饮料 - 五彩系列</h3>
+                        <p class="product-description">一瓶在手，全场我有。</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥5</span>
+                            <a href="#" class="product-btn">加入购物车 <i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品2 -->
+                <div class="product-card" data-category="clothing">
+                    <div class="product-image">
+                        <img src="images/product-2.jpg" alt="跳戏元素丝巾">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">抱枕</h3>
+                        <p class="product-description">100%真丝面料，融入传统跳戏面具元素，时尚与传统的完美结合</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥20</span>
+                            <a href="#" class="product-btn">加入购物车 <i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品3 -->
+                <div class="product-card" data-category="accessories">
+                    <div class="product-image">
+                        <img src="images/product-3.jpg" alt="跳戏脸谱书签套装">
+                        <div class="product-badge">新品</div>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">跳戏脸谱书签套装</h3>
+                        <p class="product-description">金属材质书签，镂空设计，六种经典角色脸谱，附精美包装盒</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥8</span>
+                            <a href="#" class="product-btn">加入购物车 <i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品4 -->
+                <div class="product-card" data-category="office">
+                    <div class="product-image">
+                        <img src="images/product-4.jpg" alt="跳戏主题笔记本">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">海报</h3>
+                        <p class="product-description">传递信息，直达心动。</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥5</span>
+                            <a href="#" class="product-btn">加入购物车 <i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品5 -->
+                <div class="product-card" data-category="life">
+                    <div class="product-image">
+                        <img src="images/product-5.jpg" alt="跳戏艺术茶杯套装">
+                        <div class="product-badge">限量</div>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">帆布袋</h3>
+                        <p class="product-description">一个袋子，百种可能。</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥9</span>
+                            <a href="#" class="product-btn">加入购物车 <i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品6 -->
+                <div class="product-card" data-category="mask">
+                    <div class="product-image">
+                        <img src="images/product-6.jpg" alt="创意面具冰箱贴">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">薯片</h3>
+                        <p class="product-description">一口脆响，满口满足。</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥3</span>
+                            <a href="#" class="product-btn">加入购物车 <i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品7 -->
+                <div class="product-card" data-category="clothing">
+                    <div class="product-image">
+                        <img src="images/product-7.jpg" alt="跳戏元素T恤">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">手机壳</h3>
+                        <p class="product-description">低调中藏锋芒，细节决定质感。</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥18</span>
+                            <a href="#" class="product-btn">加入购物车 <i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品8 -->
+                <div class="product-card" data-category="accessories">
+                    <div class="product-image">
+                        <img src="images/product-8.jpg" alt="跳戏面具钥匙扣">
+                        <div class="product-badge">热卖</div>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">水杯</h3>
+                        <p class="product-description">一杯在手，温暖随行。</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥12</span>
+                            <a href="#" class="product-btn">加入购物车 <i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品9 -->
+                <div class="product-card" data-category="life">
+                    <div class="product-image">
+                        <img src="images/product-9.jpg" alt="跳戏图案抱枕">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">耳机</h3>
+                        <p class="product-description">音你不同，声而不凡。</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥100</span>
+                            <a href="#" class="product-btn">加入购物车 <i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品10 -->
+                <div class="product-card" data-category="office">
+                    <div class="product-image">
+                        <img src="images/product-10.jpg" alt="跳戏主题明信片套装">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">跳戏主题明信片套装</h3>
+                        <p class="product-description">一套12张，展现跳戏不同场景和角色，高质量印刷，收藏与赠送皆宜</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥36</span>
+                            <a href="#" class="product-btn">加入购物车 <i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品11 -->
+                <div class="product-card" data-category="mask">
+                    <div class="product-image">
+                        <img src="images/product-11.jpg" alt="DIY面具彩绘套装">
+                        <div class="product-badge">亲子</div>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">显示屏</h3>
+                        <p class="product-description">240Hz高刷，畅爽无残影。</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥599</span>
+                            <a href="#" class="product-btn">加入购物车 <i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品12 -->
+                <div class="product-card" data-category="life">
+                    <div class="product-image">
+                        <img src="images/product-12.jpg" alt="跳戏艺术台历">
+                        <div class="product-badge">2025年</div>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">行李箱</h3>
+                        <p class="product-description">装得下世界，带得走远方。</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥88</span>
+                            <a href="#" class="product-btn">加入购物车 <i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 定制服务 -->
+        <section class="container main-content">
+            <div class="custom-service-container">
+                <div class="custom-service-icon icon-1">
+                    <i class="fas fa-mask fa-5x"></i>
+                </div>
+                <div class="custom-service-icon icon-2">
+                    <i class="fas fa-gifts fa-5x"></i>
+                </div>
+                <h2 class="custom-service-title">提供文创产品定制服务</h2>
+                <p class="custom-service-text">我们提供企业礼品、活动纪念品等定制服务，将跳戏元素融入您的专属设计。无论是商务礼品、纪念品还是特色伴手礼，我们都能为您量身打造。</p>
+                <a href="contact.html" class="custom-service-btn">咨询定制详情 <i class="fas fa-comment-dots"></i></a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部动画元素 -->
+    <section class="animated-footer">
+        <div class="color-stripe-container">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="color-stripe"></div>
+            <div class="color-stripe"></div>
+            <div class="color-stripe"></div>
+            <div class="color-stripe"></div>
+            <div class="color-stripe"></div>
+        </div>
+    </section>
+
+    <!-- 页脚占位 -->
+    <div id="footer-container"></div>
+
+    <!-- JavaScript 文件 -->
+    <script src="components/navbar.js"></script>
+    <script src="components/footer.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // 初始化导航栏和页脚
+        document.addEventListener('DOMContentLoaded', function () {
+            createNavbar('navbar-container', 'cultural-products');
+            createFooter('footer-container');
+
+            // 滚动指示器
+            const scrollProgress = document.querySelector('.scroll-progress-bar');
+            const backToTop = document.querySelector('.back-to-top');
+
+            window.addEventListener('scroll', function () {
+                // 滚动指示器
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercent = (scrollTop / scrollHeight) * 100;
+                scrollProgress.style.width = scrollPercent + '%';
+
+                // 返回顶部按钮
+                if (scrollTop > 600) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            // 返回顶部点击事件
+            backToTop.addEventListener('click', function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // 购物车功能
+            const cart = {
+                items: [],
+
+                // 添加商品到购物车
+                addItem(product) {
+                    const existingItem = this.items.find(item => item.id === product.id);
+
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        this.items.push({
+                            id: product.id,
+                            title: product.title,
+                            price: product.price,
+                            image: product.image,
+                            quantity: 1
+                        });
+                    }
+
+                    this.updateCartUI();
+                    this.saveCart();
+                },
+
+                // 从购物车移除商品
+                removeItem(productId) {
+                    this.items = this.items.filter(item => item.id !== productId);
+                    this.updateCartUI();
+                    this.saveCart();
+                },
+
+                // 更新商品数量
+                updateQuantity(productId, quantity) {
+                    const item = this.items.find(item => item.id === productId);
+                    if (item) {
+                        item.quantity = quantity;
+                        if (item.quantity <= 0) {
+                            this.removeItem(productId);
+                        } else {
+                            this.updateCartUI();
+                            this.saveCart();
+                        }
+                    }
+                },
+
+                // 计算总金额
+                calculateTotal() {
+                    return this.items.reduce((total, item) => {
+                        return total + (parseFloat(item.price.replace('¥', '')) * item.quantity);
+                    }, 0);
+                },
+
+                // 更新购物车UI
+                updateCartUI() {
+                    const cartItemsContainer = document.querySelector('.cart-items');
+                    const cartCount = document.querySelector('.cart-count');
+                    const totalAmount = document.querySelector('.total-amount');
+
+                    // 更新购物车数量
+                    const itemCount = this.items.reduce((count, item) => count + item.quantity, 0);
+                    cartCount.textContent = itemCount;
+
+                    // 更新购物车内容
+                    if (this.items.length === 0) {
+                        cartItemsContainer.innerHTML = '<div class="empty-cart">购物车是空的 <i class="far fa-sad-tear"></i></div>';
+                    } else {
+                        cartItemsContainer.innerHTML = this.items.map(item => `
+                            <div class="cart-item" data-id="${item.id}">
+                                <div class="cart-item-image">
+                                    <img src="${item.image}" alt="${item.title}">
+                                </div>
+                                <div class="cart-item-details">
+                                    <div class="cart-item-title">${item.title}</div>
+                                    <div class="cart-item-price">${item.price}</div>
+                                </div>
+                                <div class="cart-item-actions">
+                                    <div class="cart-item-quantity">
+                                        <button class="quantity-btn decrease"><i class="fas fa-minus"></i></button>
+                                        <span class="quantity-value">${item.quantity}</span>
+                                        <button class="quantity-btn increase"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                    <div class="remove-item"><i class="fas fa-trash-alt"></i></div>
+                                </div>
+                            </div>
+                        `).join('');
+
+                        // 添加事件监听器
+                        document.querySelectorAll('.decrease').forEach(btn => {
+                            btn.addEventListener('click', (e) => {
+                                const id = e.target.closest('.cart-item').dataset.id;
+                                const item = this.items.find(item => item.id === id);
+                                if (item) {
+                                    this.updateQuantity(id, item.quantity - 1);
+                                }
+                            });
+                        });
+
+                        document.querySelectorAll('.increase').forEach(btn => {
+                            btn.addEventListener('click', (e) => {
+                                const id = e.target.closest('.cart-item').dataset.id;
+                                const item = this.items.find(item => item.id === id);
+                                if (item) {
+                                    this.updateQuantity(id, item.quantity + 1);
+                                }
+                            });
+                        });
+
+                        document.querySelectorAll('.remove-item').forEach(btn => {
+                            btn.addEventListener('click', (e) => {
+                                const id = e.target.closest('.cart-item').dataset.id;
+                                this.removeItem(id);
+                            });
+                        });
+                    }
+
+                    // 更新总金额
+                    totalAmount.textContent = `¥${this.calculateTotal()}`;
+                },
+
+                // 保存购物车到本地存储
+                saveCart() {
+                    localStorage.setItem('cart', JSON.stringify(this.items));
+                },
+
+                // 从本地存储加载购物车
+                loadCart() {
+                    const savedCart = localStorage.getItem('cart');
+                    if (savedCart) {
+                        this.items = JSON.parse(savedCart);
+                        this.updateCartUI();
+                    }
+                }
+            };
+
+            // 初始化购物车
+            cart.loadCart();
+
+            // 购物车图标点击事件
+            document.querySelector('.cart-icon').addEventListener('click', () => {
+                document.querySelector('.cart-modal').style.display = 'flex';
+            });
+
+            // 关闭购物车
+            document.querySelector('.cart-close').addEventListener('click', () => {
+                document.querySelector('.cart-modal').style.display = 'none';
+            });
+
+            // 点击模态框外部关闭
+            document.querySelector('.cart-modal').addEventListener('click', (e) => {
+                if (e.target === document.querySelector('.cart-modal')) {
+                    document.querySelector('.cart-modal').style.display = 'none';
+                }
+            });
+
+            // 结算按钮
+            document.querySelector('.checkout-btn').addEventListener('click', () => {
+                if (cart.items.length > 0) {
+                    alert('感谢您的购买！我们将尽快处理您的订单。 ✅');
+                    cart.items = [];
+                    cart.updateCartUI();
+                    cart.saveCart();
+                    document.querySelector('.cart-modal').style.display = 'none';
+                } else {
+                    alert('购物车是空的，请先添加商品。 ⚠️');
+                }
+            });
+
+            // 为按钮添加点击效果
+            document.querySelectorAll('.product-btn').forEach(btn => {
+                btn.addEventListener('mousedown', function () {
+                    this.style.transform = 'scale(0.95)';
+                });
+
+                btn.addEventListener('mouseup', function () {
+                    this.style.transform = 'scale(1)';
+                });
+
+                btn.addEventListener('mouseleave', function () {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // 添加到购物车动画
+            function createAddToCartAnimation(startX, startY, endX, endY) {
+                const element = document.createElement('div');
+                element.className = 'add-to-cart-animation';
+                element.innerHTML = '<i class="fas fa-shopping-cart"></i>';
+                element.style.left = `${startX}px`;
+                element.style.top = `${startY}px`;
+                document.body.appendChild(element);
+
+                setTimeout(() => {
+                    element.style.transform = 'scale(0.5)';
+                    element.style.left = `${endX}px`;
+                    element.style.top = `${endY}px`;
+                    element.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
+
+                    setTimeout(() => {
+                        document.body.removeChild(element);
+                    }, 800);
+                }, 0);
+            }
+
+            // 为所有购买按钮添加点击事件
+            document.querySelectorAll('.product-btn').forEach((btn, index) => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const productCard = this.closest('.product-card') || this.closest('.featured-product');
+                    const productTitle = productCard.querySelector('.product-title') || productCard.querySelector('.featured-title');
+                    const productPrice = productCard.querySelector('.product-price');
+                    const productImage = productCard.querySelector('img');
+
+                    const product = {
+                        id: 'product-' + index,
+                        title: productTitle.textContent,
+                        price: productPrice.textContent,
+                        image: productImage.src
+                    };
+
+                    // 添加到购物车
+                    cart.addItem(product);
+
+                    // 创建动画
+                    const rect = this.getBoundingClientRect();
+                    const cartIcon = document.querySelector('.cart-icon').getBoundingClientRect();
+                    createAddToCartAnimation(
+                        rect.left + rect.width / 2,
+                        rect.top + rect.height / 2,
+                        cartIcon.left + cartIcon.width / 2,
+                        cartIcon.top + cartIcon.height / 2
+                    );
+                });
+            });
+
+            // 产品筛选功能
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const productCards = document.querySelectorAll('.product-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // 更新活动按钮样式
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const filterValue = button.getAttribute('data-category');
+
+                    productCards.forEach(card => {
+                        if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

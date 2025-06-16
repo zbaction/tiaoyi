@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我们 - 跳戏非物质文化遗产网站</title>
+    <meta name="description" content="联系跳戏艺术保护团队，了解更多关于跳戏艺术的信息和活动。">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <style>
+        /* 联系页面专用样式 */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-info {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .contact-info h2 {
+            color: #8c1c13;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #f8f3e9;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            color: #8c1c13;
+            font-weight: bold;
+        }
+
+        .contact-form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .contact-form h2 {
+            color: #8c1c13;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #8c1c13;
+            outline: none;
+        }
+
+        textarea.form-control {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: #8c1c13;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #5f1108;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏占位 -->
+    <div id="navbar-container"></div>
+
+    <main>
+        <!-- 页面标题 -->
+        <section class="container main-content">
+            <h1 class="section-title">联系我们</h1>
+            <p style="text-align: center; margin-bottom: 30px;">如果您对跳戏艺术有任何疑问或建议，欢迎与我们联系</p>
+
+            <div class="contact-container">
+                <!-- 联系信息 -->
+                <div class="contact-info">
+                    <h2>联系方式</h2>
+                    <p>您可以通过以下方式与跳戏非物质文化遗产保护中心取得联系：</p>
+
+                    <div class="contact-method">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <strong>地址：</strong>
+                            <p>陕西省渭南市合阳县</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <strong>电话：</strong>
+                            <p>13973923848</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-icon">✉️</div>
+                        <div>
+                            <strong>邮箱：</strong>
+                            <p>3345600460@qq.com</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-icon">🕒</div>
+                        <div>
+                            <strong>开放时间：</strong>
+                            <p>周二至周日 9:00-17:00<br>（周一闭馆）</p>
+                        </div>
+                    </div>
+
+                    <h2 style="margin-top: 30px;">关注我们</h2>
+                    <p>您也可以通过以下社交媒体平台关注我们，获取最新资讯：</p>
+
+                    <div class="social-media">
+                        <div class="contact-method">
+                            <div class="contact-icon">微</div>
+                            <div>
+                                <strong>微博：</strong>
+                                <p>@跳戏艺术保护</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="contact-icon">信</div>
+                            <div>
+                                <strong>微信公众号：</strong>
+                                <p>跳戏文化传承</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="contact-icon">抖</div>
+                            <div>
+                                <strong>抖音：</strong>
+                                <p>@跳戏非遗</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 联系表单 -->
+                <div class="contact-form">
+                    <h2>留言咨询</h2>
+                    <p>如果您有任何问题、建议或合作意向，请填写以下表单，我们会尽快与您联系。</p>
+
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">姓名 *</label>
+                            <input type="text" id="name" name="name" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">电子邮箱 *</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">电话</label>
+                            <input type="tel" id="phone" name="phone" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">主题 *</label>
+                            <select id="subject" name="subject" class="form-control" required>
+                                <option value="">请选择</option>
+                                <option value="general">一般咨询</option>
+                                <option value="performance">演出信息</option>
+                                <option value="workshop">工作坊/体验活动</option>
+                                <option value="cooperation">合作意向</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">留言内容 *</label>
+                            <textarea id="message" name="message" class="form-control" required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">提交留言</button>
+                    </form>
+                </div>
+            </div>
+
+
+        </section>
+    </main>
+
+    <!-- 底部动画元素 -->
+    <section class="animated-footer">
+        <div class="color-stripe-container">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="color-stripe"></div>
+            <div class="color-stripe"></div>
+            <div class="color-stripe"></div>
+            <div class="color-stripe"></div>
+            <div class="color-stripe"></div>
+        </div>
+    </section>
+
+    <!-- 页脚占位 -->
+    <div id="footer-container"></div>
+
+    <!-- JavaScript 文件 -->
+    <script src="components/navbar.js"></script>
+    <script src="components/footer.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // 初始化导航栏和页脚
+        document.addEventListener('DOMContentLoaded', function () {
+            createNavbar('navbar-container', 'contact');
+            createFooter('footer-container');
+
+            // 表单提交处理
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    // 获取表单数据
+                    const formData = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        subject: document.getElementById('subject').value,
+                        message: document.getElementById('message').value
+                    };
+
+                    // 在实际应用中，这里应该是发送表单数据到服务器的代码
+                    console.log('表单数据:', formData);
+
+                    // 显示提交成功信息
+                    alert('感谢您的留言！我们会尽快回复您。');
+
+                    // 重置表单
+                    contactForm.reset();
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>演出活动 - 跳戏非物质文化遗产网站</title>
+    <meta name="description" content="了解跳戏艺术的最新演出、展览、工作坊等活动信息。">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <style>
+        /* 活动页面专用样式 */
+        .events-container {
+            margin: 30px 0;
+        }
+
+        .event-item {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .event-item {
+                flex-direction: row;
+            }
+        }
+
+        .event-image {
+            flex: 0 0 35%;
+            overflow: hidden;
+        }
+
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .event-item:hover .event-image img {
+            transform: scale(1.05);
+        }
+
+        .event-content {
+            flex: 1;
+            padding: 25px;
+        }
+
+        .event-date {
+            display: inline-block;
+            background-color: #8c1c13;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .event-title {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .event-info {
+            margin-bottom: 15px;
+        }
+
+        .event-info p {
+            margin-bottom: 5px;
+        }
+
+        .event-info i {
+            margin-right: 10px;
+            color: #8c1c13;
+        }
+
+        .event-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .event-action {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #8c1c13;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #5f1108;
+        }
+
+        .btn-outline {
+            border: 2px solid #8c1c13;
+            color: #8c1c13;
+        }
+
+        .btn-outline:hover {
+            background-color: #8c1c13;
+            color: #fff;
+        }
+
+        .event-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            background-color: transparent;
+            border: 2px solid #8c1c13;
+            color: #8c1c13;
+            padding: 8px 16px;
+            margin: 0 8px 8px 0;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background-color: #8c1c13;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏占位 -->
+    <div id="navbar-container"></div>
+
+    <main>
+        <!-- 页面标题 -->
+        <section class="container main-content">
+            <h1 class="section-title">演出活动</h1>
+            <p style="text-align: center; margin-bottom: 30px;">了解跳戏艺术的最新演出、展览和体验活动</p>
+
+            <!-- 活动筛选 -->
+            <div class="event-filter">
+                <button class="filter-btn active" data-filter="all">全部活动</button>
+                <button class="filter-btn" data-filter="performance">演出表演</button>
+                <button class="filter-btn" data-filter="exhibition">展览展示</button>
+                <button class="filter-btn" data-filter="workshop">工作坊</button>
+                <button class="filter-btn" data-filter="lecture">讲座论坛</button>
+            </div>
+
+            <!-- 活动列表 -->
+            <div class="events-container">
+                <!-- 活动1 -->
+                <div class="event-item" data-category="performance">
+                    <div class="event-image">
+                        <img src="images/event-1.jpg" alt="跳戏经典剧目展演">
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">2025年10月15日</div>
+                        <h2 class="event-title">跳戏经典剧目展演</h2>
+                        <div class="event-info">
+                            <p><i>📍</i> 文化中心大剧院</p>
+                            <p><i>🕒</i> 19:30 - 21:30</p>
+                            <p><i>💰</i> 80元起</p>
+                        </div>
+                        <div class="event-description">
+                            <p>本次演出将呈现跳戏艺术中最具代表性的经典剧目，由国家级非物质文化遗产传承人领衔主演。演出不仅展示了跳戏的精湛技艺和艺术魅力，还融入了现代舞台艺术元素，带给观众全新的视听体验。
+                            </p>
+                        </div>
+                        <div class="event-action">
+                            <a href="#" class="btn btn-primary">立即购票</a>
+                            <a href="#" class="btn btn-outline">了解详情</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动2 -->
+                <div class="event-item" data-category="workshop">
+                    <div class="event-image">
+                        <img src="images/event-2.jpg" alt="跳戏面具制作工坊">
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">2025年11月5日</div>
+                        <h2 class="event-title">跳戏面具制作工坊</h2>
+                        <div class="event-info">
+                            <p><i>📍</i> 非遗文化体验中心</p>
+                            <p><i>🕒</i> 14:00 - 17:00</p>
+                            <p><i>💰</i> 120元/人（含材料费）</p>
+                        </div>
+                        <div class="event-description">
+                            <p>在专业工艺师的指导下，亲手制作一个跳戏特色面具。从面具的设计、绘制、彩绘到最终完成，体验传统工艺的魅力。每位参与者都能将自己制作的面具带回家，作为独特的艺术纪念品。名额有限，请提前报名。
+                            </p>
+                        </div>
+                        <div class="event-action">
+                            <a href="#" class="btn btn-primary">在线报名</a>
+                            <a href="#" class="btn btn-outline">了解详情</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动3 -->
+                <div class="event-item" data-category="exhibition">
+                    <div class="event-image">
+                        <img src="images/event-3.jpg" alt="跳戏百年历程展">
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">2024年9月20日 - 11月20日</div>
+                        <h2 class="event-title">跳戏百年历程展</h2>
+                        <div class="event-info">
+                            <p><i>📍</i> 市博物馆特展厅</p>
+                            <p><i>🕒</i> 9:00 - 17:00（周一闭馆）</p>
+                            <p><i>💰</i> 免费参观</p>
+                        </div>
+                        <div class="event-description">
+                            <p>本次展览通过珍贵的历史图片、文献资料、实物展品等，全面展示跳戏艺术百年来的发展历程、艺术特色和文化价值。展览还设有互动体验区，让观众近距离感受跳戏的独特魅力。</p>
+                        </div>
+                        <div class="event-action">
+                            <a href="#" class="btn btn-primary">预约参观</a>
+                            <a href="#" class="btn btn-outline">了解详情</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动4 -->
+                <div class="event-item" data-category="lecture">
+                    <div class="event-image">
+                        <img src="images/event-4.jpg" alt="跳戏与当代艺术的对话">
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">2024年12月8日</div>
+                        <h2 class="event-title">跳戏与当代艺术的对话</h2>
+                        <div class="event-info">
+                            <p><i>📍</i> 艺术学院报告厅</p>
+                            <p><i>🕒</i> 19:00 - 21:00</p>
+                            <p><i>💰</i> 免费（需预约）</p>
+                        </div>
+                        <div class="event-description">
+                            <p>本次讲座邀请了著名艺术评论家和跳戏传承人，共同探讨传统跳戏艺术与当代艺术的融合与创新。讲座将从美学、文化传承、艺术创新等多角度展开讨论，为传统艺术的现代化发展提供思路。</p>
+                        </div>
+                        <div class="event-action">
+                            <a href="#" class="btn btn-primary">在线预约</a>
+                            <a href="#" class="btn btn-outline">了解详情</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动5 -->
+                <div class="event-item" data-category="performance">
+                    <div class="event-image">
+                        <img src="images/event-5.jpg" alt="跳戏进校园">
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">2024年10月25日</div>
+                        <h2 class="event-title">跳戏进校园</h2>
+                        <div class="event-info">
+                            <p><i>📍</i> 西安信息职业大学</p>
+                            <p><i>🕒</i> 15:00 - 16:30</p>
+                            <p><i>💰</i> 校内活动</p>
+                        </div>
+                        <div class="event-description">
+                            <p>为了让更多青少年了解和热爱传统文化，本次活动将把跳戏艺术带进校园。活动包括精彩的跳戏表演、互动体验和艺术家与学生的交流环节，旨在培养学生对非物质文化遗产的认知和兴趣。</p>
+                        </div>
+                        <div class="event-action">
+                            <a href="#" class="btn btn-outline">了解详情</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部动画元素 -->
+    <section class="animated-footer">
+        <div class="color-stripe-container">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="color-stripe"></div>
+            <div class="color-stripe"></div>
+            <div class="color-stripe"></div>
+            <div class="color-stripe"></div>
+            <div class="color-stripe"></div>
+        </div>
+    </section>
+
+    <!-- 页脚占位 -->
+    <div id="footer-container"></div>
+
+    <!-- JavaScript 文件 -->
+    <script src="components/navbar.js"></script>
+    <script src="components/footer.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // 初始化导航栏和页脚
+        document.addEventListener('DOMContentLoaded', function () {
+            createNavbar('navbar-container', 'events');
+            createFooter('footer-container');
+
+            // 活动筛选功能
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const eventItems = document.querySelectorAll('.event-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // 更新活动按钮样式
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const filterValue = button.getAttribute('data-filter');
+
+                    eventItems.forEach(item => {
+                        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
