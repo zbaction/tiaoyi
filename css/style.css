@@ -353,29 +353,32 @@ body {
 /* 响应式设计 */
 @media (max-width: 768px) {
     .nav-menu {
-        display: none;
-        position: absolute;
+        position: fixed;
         top: 80px;
-        left: 0;
+        left: -100%;
         width: 100%;
-        background-color: #8c1c13;
+        height: auto;
         flex-direction: column;
-        text-align: center;
-        z-index: 999;
+        background-color: #8c1c13;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s ease;
+        z-index: 1000;
+        padding: 20px 0;
     }
 
     .nav-menu.active {
-        display: flex;
+        left: 0;
     }
 
     .nav-menu li {
-        margin: 0;
-        padding: 15px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin: 15px 0;
+        text-align: center;
+        width: 100%;
     }
 
     .mobile-menu-btn {
         display: block;
+        z-index: 1001;
     }
 
     .carousel {
@@ -388,7 +391,7 @@ body {
 
     .about-content,
     .about-content.reverse {
-        grid-template-columns: 1fr;
+        flex-direction: column;
     }
 }
 

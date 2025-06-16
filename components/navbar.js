@@ -6,6 +6,16 @@
  * @param {string} activePage - 当前活动页面的ID ('home', 'about', 'gallery', 'events', 'contact')
  */
 function createNavbar(elementId, activePage) {
+  // 获取当前路径的基础URL
+  const getBaseUrl = () => {
+    // 提取当前URL的路径部分
+    const pathArray = window.location.pathname.split('/');
+    pathArray.pop(); // 移除当前文件名
+    return pathArray.join('/') + '/';
+  };
+
+  const baseUrl = getBaseUrl();
+
   const navbar = `
     <header class="header">
       <div class="container header-content">
@@ -29,4 +39,17 @@ function createNavbar(elementId, activePage) {
   `;
 
   document.getElementById(elementId).innerHTML = navbar;
+
+  // 确保移动端菜单正确初始化
+  setTimeout(() => {
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const navMenu = document.querySelector('.nav-menu');
+
+    if (menuBtn && navMenu) {
+      menuBtn.addEventListener('click', function () {
+        navMenu.classList.toggle('active');
+        this.innerHTML = navMenu.classList.contains('active') ? '✕' : '☰';
+      });
+    }
+  }, 100);
 } 
