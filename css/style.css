@@ -73,7 +73,8 @@ body {
 
 /* 移动端导航按钮 */
 .mobile-menu-btn {
-    display: none;
+    display: none !important;
+    /* 强制PC端隐藏 */
     cursor: pointer;
     font-size: 24px;
     padding: 5px 10px;
@@ -379,7 +380,8 @@ body {
     }
 
     .mobile-menu-btn {
-        display: block;
+        display: block !important;
+        /* 强制移动端显示 */
         z-index: 1001;
         font-size: 24px;
         cursor: pointer;

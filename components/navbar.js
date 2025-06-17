@@ -62,8 +62,8 @@ function createNavbar(elementId, activePage) {
     const navMenu = document.querySelector('.nav-menu');
 
     if (menuBtn && navMenu) {
-      // 确保菜单按钮可见
-      menuBtn.style.display = 'block';
+      // 移除强制设置显示的代码，让CSS控制显示
+      // menuBtn.style.display = 'block';
 
       menuBtn.addEventListener('click', function () {
         navMenu.classList.toggle('active');
